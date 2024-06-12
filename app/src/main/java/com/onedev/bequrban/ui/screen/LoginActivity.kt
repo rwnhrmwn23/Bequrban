@@ -1,9 +1,8 @@
-package com.onedev.bequrban.ui.screen.login
+package com.onedev.bequrban.ui.screen
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -34,8 +32,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.onedev.bequrban.R
+import com.onedev.bequrban.theme.green
+import com.onedev.bequrban.theme.sfProFamily
 import com.onedev.bequrban.ui.theme.BequrbanTheme
-import com.onedev.bequrban.ui.theme.sfProFamily
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,8 +77,8 @@ fun LoginScreen(onNavigateToHome: () -> Unit) {
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                text = "Find Your Perfect Qurban with Bequrban.",
+                modifier = Modifier.padding(8.dp),
+                text = "Find Your Perfect Qurban with Bequrban",
                 color = Color.White,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
@@ -93,9 +92,9 @@ fun LoginScreen(onNavigateToHome: () -> Unit) {
                     .padding(horizontal = 8.dp),
                 shape = RoundedCornerShape(48.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF34A853),
+                    containerColor = green
                 ),
-                onClick = { /* Handle sign up */ }
+                onClick = { /*TODO*/ }
             ) {
                 Text(
                     modifier = Modifier.padding(8.dp),
@@ -112,14 +111,14 @@ fun LoginScreen(onNavigateToHome: () -> Unit) {
                     .padding(horizontal = 8.dp),
                 border = BorderStroke(1.dp, Color.White),
                 shape = RoundedCornerShape(48.dp),
-                onClick = { /* Handle sign up with Google */ },
+                onClick = { /*TODO*/ }
             ) {
                 Image(
+                    modifier = Modifier.size(24.dp),
                     painter = painterResource(id = R.drawable.ic_google),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    contentDescription = null
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     modifier = Modifier.padding(8.dp),
                     text = "Continue with Google",
@@ -133,7 +132,7 @@ fun LoginScreen(onNavigateToHome: () -> Unit) {
                 modifier = Modifier.clickable {
                     onNavigateToHome()
                 },
-                text = "Log in",
+                text = "Log In",
                 color = Color.White,
                 fontSize = 16.sp,
                 fontFamily = sfProFamily
@@ -143,8 +142,10 @@ fun LoginScreen(onNavigateToHome: () -> Unit) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun QurbanAppScreenPreview() {
-    LoginScreen {}
+fun LoginScreenPreview() {
+    BequrbanTheme {
+        LoginScreen {}
+    }
 }

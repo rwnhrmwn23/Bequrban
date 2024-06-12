@@ -1,10 +1,9 @@
-package com.onedev.bequrban.ui.screen.detail
+package com.onedev.bequrban.ui.screen
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,10 +39,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.onedev.bequrban.R
-import com.onedev.bequrban.ui.theme.BequrbanTheme
-import com.onedev.bequrban.ui.theme.green
-import com.onedev.bequrban.ui.theme.greenOpacity
-import com.onedev.bequrban.ui.theme.sfProFamily
+import com.onedev.bequrban.theme.BequrbanTheme
+import com.onedev.bequrban.theme.green
+import com.onedev.bequrban.theme.greenOpacity
+import com.onedev.bequrban.theme.sfProFamily
 
 class DetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,9 +57,11 @@ class DetailActivity : ComponentActivity() {
 
 @Composable
 fun DetailScreen(onBack: () -> Unit) {
-    Scaffold(bottomBar = {
-        BuyNowButton()
-    }) { paddingValues ->
+    Scaffold(
+        bottomBar = {
+            BuyNowButton()
+        }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
@@ -77,60 +78,61 @@ fun DetailScreen(onBack: () -> Unit) {
 @Composable
 fun TopSection(onBack: () -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = { onBack() }) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_back),
-                contentDescription = "Back"
+                contentDescription = null
             )
         }
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            modifier = Modifier.align(Alignment.CenterVertically),
             text = "Premium Goat",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = sfProFamily
         )
         Spacer(modifier = Modifier.weight(1f))
-        IconButton(onClick = { /* Handle share click */ }) {
+        IconButton(onClick = { /*TODO*/ }) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_bookmark), contentDescription = "Share"
+                painter = painterResource(id = R.drawable.ic_bookmark),
+                contentDescription = null
             )
         }
     }
 }
 
-data class QurbanItemData(val imageId: Int)
+data class QurbanImageItem(val imageId: Int)
 
 @Composable
 fun ImageCarousel() {
     val items = listOf(
-        QurbanItemData(R.drawable.img_mbe_detail_1),
-        QurbanItemData(R.drawable.img_mbe_detail_2),
-        QurbanItemData(R.drawable.img_mbe_detail_3),
-        QurbanItemData(R.drawable.img_mbe_detail_4),
+        QurbanImageItem(R.drawable.img_mbe_detail_1),
+        QurbanImageItem(R.drawable.img_mbe_detail_2),
+        QurbanImageItem(R.drawable.img_mbe_detail_3),
+        QurbanImageItem(R.drawable.img_mbe_detail_4)
     )
-    Column(
-    ) {
+
+    Column {
         Image(
+            modifier = Modifier.height(300.dp),
             painter = painterResource(id = R.drawable.img_mbe_detail_big),
-            contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.height(300.dp)
+            contentDescription = null
         )
         Spacer(modifier = Modifier.height(8.dp))
         LazyRow {
             items(items.size) { index ->
                 Image(
-                    painter = painterResource(id = items[index].imageId),
-                    contentDescription = null,
                     modifier = Modifier
                         .width(120.dp)
                         .height(90.dp)
                         .clip(RoundedCornerShape(16.dp))
-                        .padding(4.dp)
+                        .padding(4.dp),
+                    painter = painterResource(id = items[index].imageId),
+                    contentDescription = null
                 )
             }
         }
@@ -151,9 +153,9 @@ fun AboutSection() {
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "The Premium Goat embodies the pinnacle of excellence in qurban animals. With its impeccable features and exceptional qualities, this remarkable goat stands out from the rest. Its physique exudes elegance, with a well-proportioned body, graceful stance, and a distinguished presence. The Premium Goat showcases a broad forehead, beautifully curved horns, and a luxurious coat that captivates with shades of pristine white, deep black, or an enchanting blend of both. Beyond its physical attributes, the Premium Goat is carefully selected for its optimal age, robust health, and ideal weight, ensuring a superior offering for families and communities. Embrace the epitome of distinction and elevate your qurban experience with the magnificent Premium Goat.",
+            fontSize = 14.sp,
             maxLines = 4,
             overflow = TextOverflow.Ellipsis,
-            fontSize = 14.sp,
             textAlign = TextAlign.Justify,
             fontFamily = sfProFamily
         )
@@ -164,7 +166,33 @@ fun AboutSection() {
             color = green,
             fontFamily = sfProFamily
         )
+    }
+}
 
+@Composable
+fun TagItem(icon: Painter, text: String) {
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color = greenOpacity
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                painter = icon,
+                tint = Color.Black,
+                contentDescription = null
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = text,
+                color = Color.Black,
+                fontSize = 14.sp,
+                fontFamily = sfProFamily
+            )
+        }
     }
 }
 
@@ -194,33 +222,6 @@ fun TagSection() {
 }
 
 @Composable
-fun TagItem(icon: Painter, text: String) {
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = greenOpacity
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Icon(
-                painter = icon,
-                contentDescription = null,
-                tint = Color.Black,
-                modifier = Modifier.size(20.dp)
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = text,
-                color = Color.Black,
-                fontSize = 14.sp,
-                fontFamily = sfProFamily
-            )
-        }
-    }
-}
-
-@Composable
 fun BuyNowButton() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -229,8 +230,8 @@ fun BuyNowButton() {
             .padding(16.dp)
     ) {
         OutlinedButton(
-            onClick = { },
-            shape = RoundedCornerShape(24.dp)
+            shape = RoundedCornerShape(24.dp),
+            onClick = { /*TODO*/ }
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_message),
@@ -239,11 +240,9 @@ fun BuyNowButton() {
         }
         Spacer(modifier = Modifier.width(16.dp))
         Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { },
+            modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(24.dp),
-            color = Color(0xFF34A853)
+            color = green
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
@@ -260,8 +259,48 @@ fun BuyNowButton() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewDetailScreen() {
+fun TopSectionPreview() {
     BequrbanTheme {
-        DetailScreen { }
+        TopSection {}
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ImageCarouselPreview() {
+    BequrbanTheme {
+        ImageCarousel()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AboutSectionPreview() {
+    BequrbanTheme {
+        AboutSection()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TagSectionPreview() {
+    BequrbanTheme {
+        TagSection()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BuyNowButtonPreview() {
+    BequrbanTheme {
+        BuyNowButton()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DetailScreenPreview() {
+    BequrbanTheme {
+        DetailScreen {}
     }
 }

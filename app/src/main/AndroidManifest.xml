@@ -13,6 +13,16 @@
         android:theme="@style/Theme.Bequrban"
         tools:targetApi="31">
         <activity
+            android:name=".ui.screen.HomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.Bequrban" />
+        <activity
+            android:name=".ui.screen.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.Bequrban" />
+        <activity
             android:name=".ui.screen.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
@@ -23,21 +33,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.screen.login.LoginActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login"
-            android:theme="@style/Theme.Bequrban"/>
-        <activity
-            android:name=".ui.screen.home.HomeActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login"
-            android:theme="@style/Theme.Bequrban" />
-        <activity
-            android:name=".ui.screen.detail.DetailActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login"
-            android:theme="@style/Theme.Bequrban" />
     </application>
 
 </manifest>

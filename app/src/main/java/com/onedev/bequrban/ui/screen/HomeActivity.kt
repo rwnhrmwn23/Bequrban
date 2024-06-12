@@ -1,4 +1,4 @@
-package com.onedev.bequrban.ui.screen.home
+package com.onedev.bequrban.ui.screen
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -26,7 +26,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
@@ -45,10 +44,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.onedev.bequrban.R
-import com.onedev.bequrban.ui.theme.BequrbanTheme
-import com.onedev.bequrban.ui.theme.green
-import com.onedev.bequrban.ui.theme.sfProFamily
-import com.onedev.bequrban.ui.theme.yellow
+import com.onedev.bequrban.theme.BequrbanTheme
+import com.onedev.bequrban.theme.green
+import com.onedev.bequrban.theme.sfProFamily
+import com.onedev.bequrban.theme.yellow
 
 class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +66,7 @@ fun HomeScreen(onNavigateToDetail: () -> Unit) {
         bottomBar = {
             BottomNavigationBar()
         }
-    ) { paddingValues ->
+    ) { paddingValues ->  
         LazyColumn(
             contentPadding = paddingValues,
             modifier = Modifier.fillMaxSize()
@@ -112,7 +111,7 @@ fun HeaderSection() {
                 fontFamily = sfProFamily
             )
         }
-        IconButton(onClick = { /* TODO */ }) {
+        IconButton(onClick = { /*TODO*/ }) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_notifications),
                 contentDescription = null
@@ -130,16 +129,15 @@ fun HeaderSection() {
 fun SearchSection() {
     Box {
         Image(
-            painter = painterResource(id = R.drawable.ram_background),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(220.dp)
+                .height(220.dp),
+            painter = painterResource(id = R.drawable.ram_background),
+            contentScale = ContentScale.Crop,
+            contentDescription = null
         )
         Column(
-            modifier = Modifier
-                .padding(16.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Image(
                 modifier = Modifier.size(20.dp),
@@ -158,12 +156,20 @@ fun SearchSection() {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Start\nfrom",
-                    color = Color.White,
-                    fontSize = 12.sp,
-                    fontFamily = sfProFamily
-                )
+                Column {
+                    Text(
+                        text = "Start",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                        fontFamily = sfProFamily
+                    )
+                    Text(
+                        text = "from",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                        fontFamily = sfProFamily
+                    )
+                }
                 Text(
                     text = "2.500K",
                     color = yellow,
@@ -174,12 +180,12 @@ fun SearchSection() {
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = { /* TODO */ },
-                shape = RoundedCornerShape(24.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+                shape = RoundedCornerShape(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                onClick = { /*TODO*/ }
             ) {
                 Text(
-                    text = "Search now",
+                    text = "Search Now",
                     color = Color.Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -196,17 +202,17 @@ fun QurbanTypeSection() {
         modifier = Modifier.padding(16.dp)
     ) {
         Text(
-            text = "What type Qurban are you looking for?",
+            text = "What type Qurban are you looking for ?",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = sfProFamily
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row {
-            QurbanTypeButton("All", true)
-            QurbanTypeButton("Goat", false)
-            QurbanTypeButton("Sheep", false)
-            QurbanTypeButton("Cow", false)
+            QurbanTypeButton(type = "All", isActive = true)
+            QurbanTypeButton(type = "Goat", isActive = false)
+            QurbanTypeButton(type = "Sheep", isActive = false)
+            QurbanTypeButton(type = "Cow", isActive = false)
         }
     }
 }
@@ -215,10 +221,10 @@ fun QurbanTypeSection() {
 fun QurbanTypeButton(type: String, isActive: Boolean) {
     if (isActive) {
         Button(
-            onClick = { /* TODO */ },
+            modifier = Modifier.padding(4.dp),
             shape = RoundedCornerShape(24.dp),
             colors = ButtonDefaults.buttonColors(containerColor = green),
-            modifier = Modifier.padding(4.dp)
+            onClick = { /*TODO*/ },
         ) {
             Text(
                 text = type,
@@ -228,35 +234,43 @@ fun QurbanTypeButton(type: String, isActive: Boolean) {
         }
     } else {
         OutlinedButton(
-            onClick = { /* TODO */ },
+            modifier = Modifier.padding(4.dp),
             shape = RoundedCornerShape(24.dp),
-            modifier = Modifier.padding(4.dp)
+            onClick = { /*TODO*/ },
         ) {
-            Text(text = type, color = Color.Black)
+            Text(
+                text = type,
+                color = Color.Black,
+                fontFamily = sfProFamily
+            )
         }
     }
+
 }
 
-data class QurbanItemData(val name: String, val price: String, val weight: String, val imageId: Int)
+data class QurbanItemData(
+    val name: String,
+    val price: String,
+    val weight: String,
+    val imageId: Int,
+)
 
 @Composable
-fun QurbanItemSection(
-    onNavigateToDetail: () -> Unit
-) {
+fun QurbanItemSection(onNavigateToDetail: () -> Unit) {
     val items = listOf(
-        QurbanItemData("Normal Goat", "Rp 2.500.000", "21 - 25 Kg", R.drawable.goat_normal),
-        QurbanItemData("Premium Goat", "Rp 2.900.000", "26 - 30 Kg", R.drawable.goat_premium)
+        QurbanItemData("Normal Goat", "Rp2.500.000", "21 - 25 Kg", R.drawable.goat_normal),
+        QurbanItemData("Premium Goat", "Rp2.900.000", "26 - 30 Kg", R.drawable.goat_premium)
     )
 
-    Box(modifier = Modifier.fillMaxHeight()) { // Adjust the height as needed
+    Box(modifier = Modifier.fillMaxHeight()) {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
             modifier = Modifier
                 .height(300.dp)
                 .padding(horizontal = 8.dp)
                 .clickable {
                     onNavigateToDetail()
-                }
+                },
+            columns = GridCells.Fixed(2)
         ) {
             items(items.size) { index ->
                 QurbanItem(
@@ -288,25 +302,26 @@ fun QurbanItem(
             modifier = Modifier.background(color = Color.White)
         ) {
             Image(
-                painter = painterResource(id = imageId),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
+                    .height(150.dp),
+                painter = painterResource(id = imageId),
+                contentScale = ContentScale.Crop,
+                contentDescription = null
             )
             Box(
                 modifier = Modifier
-                    .background(Color(0xFF4CAF50))
+                    .fillMaxWidth()
+                    .background(green)
                     .padding(8.dp)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_guaranteed_healthy),
                         contentDescription = null,
-                        tint = Color.White,
+                        tint = Color.White
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
@@ -336,10 +351,10 @@ fun QurbanItem(
                     modifier = Modifier.padding(top = 4.dp)
                 ) {
                     Icon(
+                        modifier = Modifier.size(20.dp),
                         painter = painterResource(id = R.drawable.ic_weight),
-                        contentDescription = null,
                         tint = Color.Gray,
-                        modifier = Modifier.size(20.dp)
+                        contentDescription = null
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
@@ -359,50 +374,90 @@ fun BottomNavigationBar() {
     NavigationBar {
         NavigationBarItem(
             selected = true,
-            onClick = { /* TODO */ },
+            onClick = { /*TODO*/ },
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_home),
                     contentDescription = null
                 )
-            },
+            }
         )
         NavigationBarItem(
             selected = false,
-            onClick = { /* TODO */ },
+            onClick = { /*TODO*/ },
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_message),
                     contentDescription = null
                 )
-            },
+            }
         )
         NavigationBarItem(
             selected = false,
-            onClick = { /* TODO */ },
+            onClick = { /*TODO*/ },
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_cart),
                     contentDescription = null
                 )
-            },
+            }
         )
         NavigationBarItem(
             selected = false,
-            onClick = { /* TODO */ },
+            onClick = { /*TODO*/ },
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_profile),
                     contentDescription = null
                 )
-            },
+            }
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HeaderSectionPreview() {
+    HeaderSection()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SearchSectionPreview() {
+    SearchSection()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun QurbanTypeSectionPreview() {
+    QurbanTypeSection()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun QurbanItemPreview() {
+    QurbanItem(
+        "Normal Goat", "Rp2.500.000", "21 - 25 Kg", R.drawable.goat_normal
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun QurbanItemSectionPreview() {
+    QurbanItemSection { }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BottomNavigationBarPrview() {
+    BottomNavigationBar()
 }
 
 
 @Preview(showBackground = true)
 @Composable
-fun QurbanAppScreenPreview() {
-    HomeScreen {}
+fun HomeScreenPreview() {
+    BequrbanTheme {
+        HomeScreen {}
+    }
 }

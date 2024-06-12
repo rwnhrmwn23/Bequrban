@@ -8,10 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.onedev.bequrban.ui.screen.detail.DetailScreen
-import com.onedev.bequrban.ui.screen.home.HomeScreen
-import com.onedev.bequrban.ui.screen.login.LoginScreen
-import com.onedev.bequrban.ui.screen.ui.theme.BequrbanTheme
+import com.onedev.bequrban.theme.BequrbanTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,18 +22,19 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class Screen {
-    object Login : Screen()
-    object Home : Screen()
-    object Detail : Screen()
+    object Login: Screen()
+    object Home: Screen()
+    object Detail: Screen()
 }
 
 @Composable
 fun MyApp() {
-    var currentScreen by remember { mutableStateOf<Screen>(Screen.Login) }
+    var currentScreen by remember { mutableStateOf<Screen>(Screen.Login)}
 
     when (currentScreen) {
-        is Screen.Login -> LoginScreen(onNavigateToHome = { currentScreen = Screen.Home })
-        is Screen.Home -> HomeScreen(onNavigateToDetail = { currentScreen = Screen.Detail })
-        is Screen.Detail -> DetailScreen(onBack = { currentScreen = Screen.Home })
+        is Screen.Login -> LoginScreen(onNavigateToHome = {currentScreen = Screen.Home})
+        is Screen.Home -> HomeScreen(onNavigateToDetail = {currentScreen = Screen.Detail})
+        is Screen.Detail -> DetailScreen(onBack = {currentScreen = Screen.Home})
     }
+
 }
