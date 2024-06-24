@@ -15,10 +15,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -66,10 +66,10 @@ fun HomeScreen(onNavigateToDetail: () -> Unit) {
         bottomBar = {
             BottomNavigationBar()
         }
-    ) { paddingValues ->  
+    ) { paddingValues ->
         LazyColumn(
+            modifier = Modifier.fillMaxSize(),
             contentPadding = paddingValues,
-            modifier = Modifier.fillMaxSize()
         ) {
             item {
                 HeaderSection()
@@ -81,7 +81,7 @@ fun HomeScreen(onNavigateToDetail: () -> Unit) {
                 QurbanTypeSection()
             }
             item {
-                QurbanItemSection(onNavigateToDetail)
+                QurbanItemGridSection(onNavigateToDetail)
             }
         }
     }
@@ -256,8 +256,10 @@ data class QurbanItemData(
 )
 
 @Composable
-fun QurbanItemSection(onNavigateToDetail: () -> Unit) {
+fun QurbanItemGridSection(onNavigateToDetail: () -> Unit) {
     val items = listOf(
+        QurbanItemData("Normal Goat", "Rp2.500.000", "21 - 25 Kg", R.drawable.goat_normal),
+        QurbanItemData("Premium Goat", "Rp2.900.000", "26 - 30 Kg", R.drawable.goat_premium),
         QurbanItemData("Normal Goat", "Rp2.500.000", "21 - 25 Kg", R.drawable.goat_normal),
         QurbanItemData("Premium Goat", "Rp2.900.000", "26 - 30 Kg", R.drawable.goat_premium)
     )
@@ -265,11 +267,8 @@ fun QurbanItemSection(onNavigateToDetail: () -> Unit) {
     Box(modifier = Modifier.fillMaxHeight()) {
         LazyVerticalGrid(
             modifier = Modifier
-                .height(300.dp)
-                .padding(horizontal = 8.dp)
-                .clickable {
-                    onNavigateToDetail()
-                },
+                .heightIn(max = 800.dp)
+                .padding(horizontal = 8.dp),
             columns = GridCells.Fixed(2)
         ) {
             items(items.size) { index ->
@@ -277,7 +276,8 @@ fun QurbanItemSection(onNavigateToDetail: () -> Unit) {
                     name = items[index].name,
                     price = items[index].price,
                     weight = items[index].weight,
-                    imageId = items[index].imageId
+                    imageId = items[index].imageId,
+                    onNavigateToDetail
                 )
             }
         }
@@ -289,14 +289,14 @@ fun QurbanItem(
     name: String,
     price: String,
     weight: String,
-    imageId: Int
+    imageId: Int,
+    onNavigateToDetail: () -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .width(200.dp)
             .padding(8.dp)
-            .wrapContentHeight()
+            .clickable { onNavigateToDetail() }
     ) {
         Column(
             modifier = Modifier.background(color = Color.White)
@@ -436,20 +436,12 @@ fun QurbanTypeSectionPreview() {
 @Preview(showBackground = true)
 @Composable
 fun QurbanItemPreview() {
-    QurbanItem(
-        "Normal Goat", "Rp2.500.000", "21 - 25 Kg", R.drawable.goat_normal
-    )
+    QurbanItem("Normal Goat", "Rp2.500.000", "21 - 25 Kg", R.drawable.goat_normal) { }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun QurbanItemSectionPreview() {
-    QurbanItemSection { }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BottomNavigationBarPrview() {
+fun BottomNavigationBarPreview() {
     BottomNavigationBar()
 }
 

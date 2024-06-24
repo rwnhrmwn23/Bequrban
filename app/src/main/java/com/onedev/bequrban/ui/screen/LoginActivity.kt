@@ -94,7 +94,9 @@ fun LoginScreen(onNavigateToHome: () -> Unit) {
                 colors = ButtonDefaults.buttonColors(
                     containerColor = green
                 ),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    onNavigateToHome()
+                }
             ) {
                 Text(
                     modifier = Modifier.padding(8.dp),
@@ -111,7 +113,9 @@ fun LoginScreen(onNavigateToHome: () -> Unit) {
                     .padding(horizontal = 8.dp),
                 border = BorderStroke(1.dp, Color.White),
                 shape = RoundedCornerShape(48.dp),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    onNavigateToHome()
+                }
             ) {
                 Image(
                     modifier = Modifier.size(24.dp),
